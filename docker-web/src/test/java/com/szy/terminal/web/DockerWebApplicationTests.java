@@ -11,8 +11,6 @@ class DockerWebApplicationTests {
     @Test
     void contextLoads() {
         TerminalSession terminalSession = new TerminalSession();
-//        DockerClient client = DockerUtils.connect();
-//        AttachContainerCmd attached = client.attachContainerCmd("78124cf2c8a1");
 
     }
 

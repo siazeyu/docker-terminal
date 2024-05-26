@@ -3,9 +3,13 @@ package com.szy.terminal.server;
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class OutputStreamReceiver implements StreamReceiver{
+public abstract class InputStreamReceiver extends Thread implements StreamReceiver {
 
-    private InputStream inputStream;
+    private final InputStream inputStream;
+
+    public InputStreamReceiver(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
 
     @Override
     public void run() {
@@ -23,5 +27,7 @@ public abstract class OutputStreamReceiver implements StreamReceiver{
         }
     }
     public abstract void doEvent(byte[] data);
+
+    public abstract void doError(Exception e);
 
 }

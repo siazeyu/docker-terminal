@@ -2,10 +2,12 @@ package com.szy.terminal.web.session;
 
 import com.pty4j.PtyProcess;
 import com.pty4j.PtyProcessBuilder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
+@Getter
 @Slf4j
 public class TerminalSession {
 
@@ -29,7 +31,7 @@ public class TerminalSession {
             int exitValue = process.waitFor();
             if (exitValue != 0) {
                 // 读取错误流
-                InputStream errorStream = process.getErrorStream();
+                error = process.getErrorStream();
                 log.error("{} 容器启动失败！", getName());
                 return;
             }
@@ -39,11 +41,8 @@ public class TerminalSession {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
+
 }
