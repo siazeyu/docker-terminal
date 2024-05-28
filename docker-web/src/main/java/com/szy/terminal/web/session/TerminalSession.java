@@ -12,6 +12,7 @@ import java.io.*;
 public class TerminalSession {
 
     private String name;
+
     private OutputStream writer;
 
     private InputStream error;

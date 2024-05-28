@@ -1,2 +1,6 @@
 server:
   port: 8090
+
+docker:
+  host: tcp://localhost:2375
+  api-version: 1.41
