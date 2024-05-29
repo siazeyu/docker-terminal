@@ -6,7 +6,10 @@ import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
+import com.pty4j.PtyProcess;
+import com.pty4j.PtyProcessBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 public class DockerConnect {
@@ -69,5 +72,19 @@ public class DockerConnect {
 
     public void stopContainer(String containerId) {
         dockerClient.stopContainerCmd(containerId).exec();
+    }
+
+    public PtyProcess connectTerminal(String containerId) {
+        startContains(containerId);
+        PtyProcess process = null;
+        try {
+            process = new PtyProcessBuilder().setCommand(new String[]{"docker", "exec", "-it", containerId, "/bin/bash"})
+                    .setInitialRows(37)
+                    .setInitialColumns(80)
+                    .start();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return process;
     }
 }

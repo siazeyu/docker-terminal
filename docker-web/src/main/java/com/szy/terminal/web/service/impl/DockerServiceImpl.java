@@ -1,14 +1,11 @@
 package com.szy.terminal.web.service.impl;
 
 import com.pty4j.PtyProcess;
-import com.pty4j.PtyProcessBuilder;
 import com.szy.terminal.server.DockerConnect;
 import com.szy.terminal.web.entity.pojo.DockerConnectInfo;
 import com.szy.terminal.web.service.DockerService;
 import com.szy.terminal.web.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -26,7 +23,7 @@ import java.util.Objects;
 @Slf4j
 public class DockerServiceImpl implements DockerService {
 
-    private DockerConnect connect = SpringUtils.getBean(DockerConnect.class);
+    private DockerConnect dockerConnect = SpringUtils.getBean(DockerConnect.class);
 
     public void transTerminal(PtyProcess ptyProcess, String command) throws IOException {
         if (ptyProcess != null) {
@@ -37,17 +34,7 @@ public class DockerServiceImpl implements DockerService {
     }
 
     public PtyProcess connect(String containerId) {
-        connect.startContains(containerId);
-        PtyProcess process = null;
-        try {
-            process = new PtyProcessBuilder().setCommand(new String[]{"docker", "exec", "-it", containerId, "/bin/bash"})
-                    .setInitialRows(37)
-                    .setInitialColumns(80)
-                    .start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return process;
+        return dockerConnect.connectTerminal(containerId);
     }
 
     @Override
